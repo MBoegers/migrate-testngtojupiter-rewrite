@@ -8,7 +8,7 @@
  * https://www.eclipse.org/legal/epl-v20.html
  */
 
-package io.guthub.mboegers.openrewrite.testngtojuniper;
+package io.github.mboegers.openrewrite.testngtojupiter;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
@@ -43,10 +43,10 @@ public class MigrateTestAnnotation extends Recipe {
 
     class ReplaceTestAnnotationVisitor extends JavaIsoVisitor<ExecutionContext> {
 
-        private static final String JUNIPER_TEST = "org.junit.jupiter.api.Test";
+        private static final String JUPITER_TEST = "org.junit.jupiter.api.Test";
         private static final String TESTNG_TEST_FQN = "org.testng.annotations.Test";
         private final AnnotationMatcher TESTNG_TEST_MATCHER = new AnnotationMatcher("@" + TESTNG_TEST_FQN);
-        private final AnnotationMatcher JUNIPER_TEST_MATCHER = new AnnotationMatcher("@" + JUNIPER_TEST);
+        private final AnnotationMatcher JUPITER_TEST_MATCHER = new AnnotationMatcher("@" + JUPITER_TEST);
 
         class TestNgInfos {
             final String[] groups;
@@ -129,22 +129,22 @@ public class MigrateTestAnnotation extends Recipe {
                 return method;
             }
 
-            // transform TestNG @Test to Juniper
+            // transform TestNG @Test to Jupiter
             JavaCoordinates javaCoordinates = method.getCoordinates().addAnnotation((o1, o2) -> -1);
-            method = transformAnnotationToJuniper(method, ctx, testNGAnnotation.get(), getCursor(), javaCoordinates);
+            method = transformAnnotationToJupiter(method, ctx, testNGAnnotation.get(), getCursor(), javaCoordinates);
 
             // remove org.testng.annotations.Test annotation
             maybeRemoveImport(TESTNG_TEST_FQN);
             return new RemoveAnnotationVisitor(TESTNG_TEST_MATCHER).visitMethodDeclaration(method, ctx);
         }
 
-        private J.MethodDeclaration transformAnnotationToJuniper(J.MethodDeclaration method, ExecutionContext ctx, J.Annotation annotation, Cursor cursor, JavaCoordinates coordinates) {
+        private J.MethodDeclaration transformAnnotationToJupiter(J.MethodDeclaration method, ExecutionContext ctx, J.Annotation annotation, Cursor cursor, JavaCoordinates coordinates) {
             J.MethodDeclaration result = JavaTemplate.builder("@Test")
                     .javaParser(JavaParser.fromJavaVersion().classpath( "junit-jupiter-api"))
-                    .imports(JUNIPER_TEST)
+                    .imports(JUPITER_TEST)
                     .build()
                     .apply(getCursor(), coordinates);
-            maybeAddImport(JUNIPER_TEST, false);
+            maybeAddImport(JUPITER_TEST, false);
             return result;
         }
     }

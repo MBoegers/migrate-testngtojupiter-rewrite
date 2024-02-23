@@ -1,6 +1,6 @@
-# Migrate Test NG to JUnit Juniper
+# Migrate Test NG to JUnit Jupiter
 
-This project assembles [Open Rewrite](https://docs.openrewrite.org/) Recipes to migrate unit tests suites from [TestNG](https://github.com/testng-team/testng) to [JUnit Juniper](https://github.com/junit-team/junit5).
+This project assembles [Open Rewrite](https://docs.openrewrite.org/) Recipes to migrate unit tests suites from [TestNG](https://github.com/testng-team/testng) to [JUnit Jupiter](https://github.com/junit-team/junit5).
 
 > [!NOTE]  
 > For the authors it is very important to state: Using TestNG is perfectly fine! 
@@ -10,7 +10,7 @@ This project assembles [Open Rewrite](https://docs.openrewrite.org/) Recipes to 
 
 You can get help to writing Open Rewrite Recipes you can join the [Open Rewrite Slack](https://join.slack.com/t/rewriteoss/shared_invite/zt-nj42n3ea-b~62rIHzb3Vo0E1APKCXEA) .
 
-To get help regarding [TestNG](https://github.com/testng-team/testng) or [JUnit Juniper](https://github.com/junit-team/junit5) see the project pages.
+To get help regarding [TestNG](https://github.com/testng-team/testng) or [JUnit Jupiter](https://github.com/junit-team/junit5) see the project pages.
 
 If you have problems regarding the recipes within this artifact feel free to contact me in the testing channel at the [jvm-german Slack](jvm-german.slack.com) or directly via [@MBoegie@fosstodon.org](https://fosstodon.org/@MBoegie) on Mastodon. 
 

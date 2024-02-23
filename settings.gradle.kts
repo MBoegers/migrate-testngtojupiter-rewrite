@@ -1,1 +1,1 @@
-rootProject.name = "migrate-testng-to-juniper"
+rootProject.name = "migrate-testngtojupiter-rewrite"

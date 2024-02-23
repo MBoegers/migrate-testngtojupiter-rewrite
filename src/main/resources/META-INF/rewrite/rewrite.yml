@@ -10,11 +10,11 @@
 
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: io.github.mboegers.openrewrite.TestNgToJUnitJuniper
-displayName: Migrate Test NG tests to JUnit Juniper
-description: Migrate Test NG annotations and assertions to JUnit Juniper. It is recommended to also execute org.openrewrite.java.testing.junit5.JUnit5BestPractices to the codebase.
+name: io.github.mboegers.openrewrite.TestNgToJUnitJupiter
+displayName: Migrate Test NG tests to JUnit Jupiter
+description: Migrate Test NG annotations and assertions to JUnit Jupiter. It is recommended to also execute org.openrewrite.java.testing.junit5.JUnit5BestPractices to the codebase.
 recipeList:
-  - io.guthub.mboegers.openrewrite.testngtojuniper.MigrateTestAnnotation
-  - io.guthub.mboegers.openrewrite.testngtojuniper.MigrateAssertions
+  - io.guthub.mboegers.openrewrite.testngtojupiter.MigrateTestAnnotation
+  - io.guthub.mboegers.openrewrite.testngtojupiter.MigrateAssertions
   - org.openrewrite.java.testing.junit5.JUnit5BestPractices
 ---

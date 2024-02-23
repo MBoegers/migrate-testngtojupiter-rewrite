@@ -7,18 +7,17 @@
  *
  * https://www.eclipse.org/legal/epl-v20.html
  */
-package io.guthub.mboegers.openrewrite.testngtojuniper;
+package io.github.mboegers.openrewrite.testngtojupiter;
 
 import com.google.errorprone.refaster.annotation.AfterTemplate;
 import com.google.errorprone.refaster.annotation.BeforeTemplate;
-import com.google.errorprone.refaster.annotation.MayOptionallyUse;
 import org.junit.jupiter.api.Assertions;
 import org.openrewrite.java.template.RecipeDescriptor;
 import org.testng.Assert;
 
 @RecipeDescriptor(
-        name = "Migrate TestNG Asserts to Juniper",
-        description = "Migrate all TestNG Assertions to JUnit Juniper Assertions."
+        name = "Migrate TestNG Asserts to Jupiter",
+        description = "Migrate all TestNG Assertions to JUnit Jupiter Assertions."
 )
 public class MigrateAssertions {
     @RecipeDescriptor(

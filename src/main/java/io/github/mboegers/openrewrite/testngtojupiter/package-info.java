@@ -10,7 +10,7 @@
 
 @NonNullApi
 @NonNullFields
-package io.guthub.mboegers.openrewrite.testngtojuniper;
+package io.github.mboegers.openrewrite.testngtojupiter;
 
 import org.openrewrite.internal.lang.NonNullApi;
 import org.openrewrite.internal.lang.NonNullFields;
