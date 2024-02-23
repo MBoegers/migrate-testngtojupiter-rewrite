@@ -12,7 +12,7 @@ You can get help to writing Open Rewrite Recipes you can join the [Open Rewrite 
 
 To get help regarding [TestNG](https://github.com/testng-team/testng) or [JUnit Juniper](https://github.com/junit-team/junit5) see the project pages.
 
-If you have problems regarding the recipes within this artifact feel free to contact me in the testing channel at the [jvm-german Slack](jvm-german.slack.com) or directly via (@MBoegie@fosstodon.org)[https://fosstodon.org/@MBoegie] on Mastodon. 
+If you have problems regarding the recipes within this artifact feel free to contact me in the testing channel at the [jvm-german Slack](jvm-german.slack.com) or directly via [@MBoegie@fosstodon.org](https://fosstodon.org/@MBoegie) on Mastodon. 
 
 ## Development
 
