@@ -20,9 +20,10 @@ import org.testng.Assert;
         description = "Migrate all TestNG Assertions to JUnit Jupiter Assertions."
 )
 public class MigrateAssertions {
+
     @RecipeDescriptor(
-            name = "Replace `Assert#assertEquals(Object, Object)`",
-            description = "Replace `org.testng.Assert#assertEquals(Object, Object)` with `org.junit.jupiter.api.Assertions#assertEquals(Object, Object)`."
+            name = "Replace `Assert#assertEquals(?, ?)`",
+            description = "Replace `org.testng.Assert#assertEquals(?, ?)` with `org.junit.jupiter.api.Assertions#assertEquals(?, ?)`."
     )
     public static class MigrateObjectAssert {
 
@@ -38,8 +39,8 @@ public class MigrateAssertions {
     }
 
     @RecipeDescriptor(
-            name = "Replace `Assert#assertEquals(Object, Object, String)`",
-            description = "Replace `org.testng.Assert#assertEquals(Object, Object, String)` with `org.junit.jupiter.api.Assertions#assertEquals(Object, Object, String)`."
+            name = "Replace `Assert#assertEquals(?, ?, String)`",
+            description = "Replace `org.testng.Assert#assertEquals(?, ?, String)` with `org.junit.jupiter.api.Assertions#assertEquals(?, ?, String)`."
     )
     public static class MigrateObjectAssertWithMsg {
 
@@ -51,6 +52,109 @@ public class MigrateAssertions {
         @AfterTemplate
         void after(Object actual, Object expected, String msg) {
             Assertions.assertEquals(expected, actual, msg);
+        }
+    }
+
+
+    @RecipeDescriptor(
+            name = "Replace `Assert#assertEquals(?, ?)`",
+            description = "Replace `org.testng.Assert#assertEquals(?, ?)` with `org.junit.jupiter.api.Assertions#assertEquals(?, ?)`."
+    )
+    public static class MigrateAssertNotEqual {
+
+        @BeforeTemplate
+        void before(Object actual, Object expected) {
+            Assert.assertNotEquals(actual, expected);
+        }
+
+        @AfterTemplate
+        void after(Object actual, Object expected) {
+            Assertions.assertNotEquals(expected, actual);
+        }
+    }
+
+    @RecipeDescriptor(
+            name = "Replace `Assert#assertEquals(?, ?, String)`",
+            description = "Replace `org.testng.Assert#assertEquals(?, ?, String)` with `org.junit.jupiter.api.Assertions#assertEquals(?, ?, String)`."
+    )
+    public static class MigrateAssertNotEqualWithMsg {
+
+        @BeforeTemplate
+        void before(Object actual, Object expected, String msg) {
+            Assert.assertNotEquals(actual, expected, msg);
+        }
+
+        @AfterTemplate
+        void after(Object actual, Object expected, String msg) {
+            Assertions.assertNotEquals(expected, actual, msg);
+        }
+    }
+
+    @RecipeDescriptor(
+            name = "Replace `Assert#assertFalse(boolean)`",
+            description = "Replace `org.testng.Assert#assertFalse(boolean)` with `org.junit.jupiter.api.Assertions#assertFalse(boolean)`."
+    )
+    public static class MigrateAssertFalse {
+
+        @BeforeTemplate
+        void before(boolean expr) {
+            Assert.assertFalse(expr);
+        }
+
+        @AfterTemplate
+        void after(boolean expr) {
+            Assertions.assertFalse(expr);
+        }
+    }
+
+    @RecipeDescriptor(
+            name = "Replace `Assert#assertFalse(boolean, String)`",
+            description = "Replace `org.testng.Assert#assertFalse(boolean, String)` with `org.junit.jupiter.api.Assertions#assertFalse(boolean, String)`."
+    )
+    public static class MigrateAssertFalseWithMsg {
+
+        @BeforeTemplate
+        void before(boolean expr, String msg) {
+            Assert.assertFalse(expr, msg);
+        }
+
+        @AfterTemplate
+        void after(boolean expr, String msg) {
+            Assertions.assertFalse(expr, msg);
+        }
+    }
+
+    @RecipeDescriptor(
+            name = "Replace `Assert#assertTrue(boolean)`",
+            description = "Replace `org.testng.Assert#assertTrue(boolean)` with `org.junit.jupiter.api.Assertions#assertTrue(boolean)`."
+    )
+    public static class MigrateAssertTrue {
+
+        @BeforeTemplate
+        void before(boolean expr) {
+            Assert.assertTrue(expr);
+        }
+
+        @AfterTemplate
+        void after(boolean expr) {
+            Assertions.assertTrue(expr);
+        }
+    }
+
+    @RecipeDescriptor(
+            name = "Replace `Assert#assertTrue(boolean, String)`",
+            description = "Replace `org.testng.Assert#assertTrue(boolean, String)` with `org.junit.jupiter.api.Assertions#assertTrue(boolean, String)`."
+    )
+    public static class MigrateAssertTrueWithMsg {
+
+        @BeforeTemplate
+        void before(boolean expr, String msg) {
+            Assert.assertTrue(expr, msg);
+        }
+
+        @AfterTemplate
+        void after(boolean expr, String msg) {
+            Assertions.assertTrue(expr, msg);
         }
     }
 }
