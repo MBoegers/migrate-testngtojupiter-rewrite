@@ -1,117 +1,33 @@
-## Rewrite recipe starter
+# Migrate Test NG to JUnit Juniper
 
-This repository serves as a template for building your own recipe JARs and publishing them to a repository where they can be applied on [app.moderne.io](https://app.moderne.io) against all the public OSS code that is included there.
+This project assembles [Open Rewrite](https://docs.openrewrite.org/) Recipes to migrate unit tests suites from [TestNG](https://github.com/testng-team/testng) to [JUnit Juniper](https://github.com/junit-team/junit5).
 
-We've provided a sample recipe (NoGuavaListsNewArray) and a sample test class. Both of these exist as placeholders, and they should be replaced by whatever recipe you are interested in writing.
+> [!NOTE]  
+> For the authors it is very important to state: Using TestNG is perfectly fine! 
+> If you decide to migrate for what ever reasons, these recipes are your way to go.
 
-To begin, fork this repository and customize it by:
+## Getting Help
 
-1. Changing the root project name in `settings.gradle.kts`.
-2. Changing the `group` in `build.gradle.kts`.
-3. Changing the package structure from `com.yourorg` to whatever you want.
+You can get help to writing Open Rewrite Recipes you can join the [Open Rewrite Slack](https://join.slack.com/t/rewriteoss/shared_invite/zt-nj42n3ea-b~62rIHzb3Vo0E1APKCXEA) .
 
-## Detailed Guide
+To get help regarding [TestNG](https://github.com/testng-team/testng) or [JUnit Juniper](https://github.com/junit-team/junit5) see the project pages.
 
-There is a [comprehensive getting started guide](https://docs.openrewrite.org/authoring-recipes/recipe-development-environment)
-available in the OpenRewrite docs that provides more details than the below README.
+If you have problems regarding the recipes within this artifact feel free to contact me in the testing channel at the [jvm-german Slack](jvm-german.slack.com) or directly via (@MBoegie@fosstodon.org)[https://fosstodon.org/@MBoegie] on Mastodon. 
 
-## Local Publishing for Testing
+## Development
 
-Before you publish your recipe module to an artifact repository, you may want to try it out locally.
-To do this on the command line, run:
-```bash
-./gradlew publishToMavenLocal
-# or ./gradlew pTML
-```
-This will publish to your local maven repository, typically under `~/.m2/repository`.
+For further information see the Open Rewrite docs section [Authoring Recipes](https://docs.openrewrite.org/authoring-recipes).
 
-Replace the groupId, artifactId, recipe name, and version in the below snippets with the ones that correspond to your recipe.
+### Building from Source
 
-In the pom.xml of a different project you wish to test your recipe out in, make your recipe module a plugin dependency of rewrite-maven-plugin:
-```xml
-<project>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.openrewrite.maven</groupId>
-                <artifactId>rewrite-maven-plugin</artifactId>
-                <version>RELEASE</version>
-                <configuration>
-                    <activeRecipes>
-                        <recipe>com.yourorg.NoGuavaListsNewArrayList</recipe>
-                    </activeRecipes>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.yourorg</groupId>
-                        <artifactId>rewrite-recipe-starter</artifactId>
-                        <version>0.1.0-SNAPSHOT</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-        </plugins>
-    </build>
-</project>
-```
+Open Rewrite recipe artifacts are usually build with gradle.
+The build is 100% taken from the [moderneinc/rewrite-recipe-starter](https://github.com/moderneinc/rewrite-recipe-starter) and depends on Java 11.
 
-Unlike Maven, Gradle must be explicitly configured to resolve dependencies from Maven local.
-The root project of your Gradle build, make your recipe module a dependency of the `rewrite` configuration:
+### Installing in Local Maven Repository
 
-```groovy
-plugins {
-    id("java")
-    id("org.openrewrite.rewrite") version("latest.release")
-}
+The artifact can be built and tested with the command ``./gradlew build``.
+Publishing to your local maven repository (i.e. _~/.m2/repository_) with ``./gradlew publishToMavenLocal``.
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
+## Contributing
 
-dependencies {
-    rewrite("com.yourorg:rewrite-recipe-starter:latest.integration")
-}
-
-rewrite {
-    activeRecipe("com.yourorg.NoGuavaListsNewArrayList")
-}
-```
-
-Now you can run `mvn rewrite:run` or `gradlew rewriteRun` to run your recipe.
-
-## Publishing to Artifact Repositories
-
-This project is configured to publish to Moderne's open artifact repository (via the `publishing` task at the bottom of
-the `build.gradle.kts` file). If you want to publish elsewhere, you'll want to update that task.
-[app.moderne.io](https://app.moderne.io) can draw recipes from the provided repository, as well as from [Maven Central](https://search.maven.org).
-
-Note:
-Running the publish task _will not_ update [app.moderne.io](https://app.moderne.io), as only Moderne employees can
-add new recipes. If you want to add your recipe to [app.moderne.io](https://app.moderne.io), please ask the
-team in [Slack](https://join.slack.com/t/rewriteoss/shared_invite/zt-nj42n3ea-b~62rIHzb3Vo0E1APKCXEA) or in [Discord](https://discord.gg/xk3ZKrhWAb).
-
-These other docs might also be useful for you depending on where you want to publish the recipe:
-
-* Sonatype's instructions for [publishing to Maven Central](https://maven.apache.org/repository/guide-central-repository-upload.html)
-* Gradle's instructions on the [Gradle Publishing Plugin](https://docs.gradle.org/current/userguide/publishing\_maven.html).
-
-### From Github Actions
-
-The `.github` directory contains a Github action that will push a snapshot on every successful build.
-
-Run the release action to publish a release version of a recipe.
-
-### From the command line
-
-To build a snapshot, run `./gradlew snapshot publish` to build a snapshot and publish it to Moderne's open artifact repository for inclusion at [app.moderne.io](https://app.moderne.io).
-
-To build a release, run `./gradlew final publish` to tag a release and publish it to Moderne's open artifact repository for inclusion at [app.moderne.io](https://app.moderne.io).
-
-
-## Applying OpenRewrite recipe development best practices
-
-We maintain a collection of [best practices for writing OpenRewrite recipes](https://github.com/openrewrite/rewrite-recommendations/).
-You can apply these recommendations to your recipes by running the following command:
-```bash
-./gradlew rewriteRun -Drewrite.activeRecipe=org.openrewrite.recipes.OpenRewriteBestPractices
-```
+If you find bugs or missing migrations feel free to file an issue or submit a pull request.
