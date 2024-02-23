@@ -10,6 +10,7 @@
 package io.github.mboegers.openrewrite.testngtojuniper;
 
 import io.guthub.mboegers.openrewrite.testngtojuniper.MigrateAssertionsRecipes;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
@@ -17,7 +18,7 @@ import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.java.Assertions.java;
 
-public class MigrateAssertionsTests implements RewriteTest {
+class MigrateAssertionsTests implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
         spec.parser(JavaParser.fromJavaVersion()
@@ -26,45 +27,70 @@ public class MigrateAssertionsTests implements RewriteTest {
           .recipe(new MigrateAssertionsRecipes());
     }
 
-    @Test
-    void replaceAssertEquals() {
-        //language=java
-        rewriteRun(java("""
-                import org.testng.Assert;
-                     
-                class MyTest {
-                    void testInt() {
-                        int actual = 1;
-                        int expected = 2;
-                        
-                        Assert.assertEquals(actual, expected);
-                    }
+    @Nested
+    class MigrateAssertEquals {
+        @Nested
+        class WithFailMessage {
+            @Test
+            void migrateEqualsInt() {
+                //language=java
+                rewriteRun(java("""
+                  import org.testng.Assert;
                          
-                    void testObject() {
-                        Object actual = new Object();
-                        Object expected = new Object();
-                      
-                        Assert.assertEquals(actual, expected);
+                    class MyTest {
+                        void testInt() {
+                            int actual = 1;
+                            int expected = 2;
+                            
+                            Assert.assertEquals(actual, expected, "Test failed badly");
+                        }
                     }
-                }
-                ""","""
-                import org.junit.jupiter.api.Assertions;
-                
-                class MyTest {
-                    void testInt() {
-                        int actual = 1;
-                        int expected = 2;
-                        
-                        Assertions.assertEquals(expected, actual);
+                     """,
+                  """
+                    import org.junit.jupiter.api.Assertions;
+                 
+                     class MyTest {
+                        void testInt() {
+                            int actual = 1;
+                            int expected = 2;
+                                         
+                            Assertions.assertEquals(expected, actual, "Test failed badly");
+                        }
                     }
+                    """));
+            }
+        }
+
+        @Nested
+        class WithoutFailMessage {
+            @Test
+            void migrateEqualsInt() {
+                //language=java
+                rewriteRun(java("""
+                  import org.testng.Assert;
                          
-                    void testObject() {
-                        Object actual = new Object();
-                        Object expected = new Object();
-                     
-                        Assertions.assertEquals(expected, actual);
+                    class MyTest {
+                        void testInt() {
+                            int actual = 1;
+                            int expected = 2;
+                            
+                            Assert.assertEquals(actual, expected);
+                        }
                     }
-                }
-                """));
+                     """,
+                  """
+                    import org.junit.jupiter.api.Assertions;
+                 
+                     class MyTest {
+                        void testInt() {
+                            int actual = 1;
+                            int expected = 2;
+                                         
+                            Assertions.assertEquals(expected, actual);
+                        }
+                    }
+                    """));
+            }
+        }
     }
 }

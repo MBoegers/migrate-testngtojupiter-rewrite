@@ -11,6 +11,7 @@ package io.guthub.mboegers.openrewrite.testngtojuniper;
 
 import com.google.errorprone.refaster.annotation.AfterTemplate;
 import com.google.errorprone.refaster.annotation.BeforeTemplate;
+import com.google.errorprone.refaster.annotation.MayOptionallyUse;
 import org.junit.jupiter.api.Assertions;
 import org.openrewrite.java.template.RecipeDescriptor;
 import org.testng.Assert;
@@ -34,6 +35,23 @@ public class MigrateAssertions {
         @AfterTemplate
         void after(Object actual, Object expected) {
             Assertions.assertEquals(expected, actual);
+        }
+    }
+
+    @RecipeDescriptor(
+            name = "Replace `Assert#assertEquals(Object, Object, String)`",
+            description = "Replace `org.testng.Assert#assertEquals(Object, Object, String)` with `org.junit.jupiter.api.Assertions#assertEquals(Object, Object, String)`."
+    )
+    public static class MigrateObjectAssertWithMsg {
+
+        @BeforeTemplate
+        void before(Object actual, Object expected, String msg) {
+            Assert.assertEquals(actual, expected, msg);
+        }
+
+        @AfterTemplate
+        void after(Object actual, Object expected, String msg) {
+            Assertions.assertEquals(expected, actual, msg);
         }
     }
 }
