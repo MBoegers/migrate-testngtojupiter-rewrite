@@ -15,7 +15,7 @@
  */
 @NonNullApi
 @NonNullFields
-package com.yourorg;
+package io.guthub.mboegers.openrewrite.testngtojuniper;
 
 import org.openrewrite.internal.lang.NonNullApi;
 import org.openrewrite.internal.lang.NonNullFields;
