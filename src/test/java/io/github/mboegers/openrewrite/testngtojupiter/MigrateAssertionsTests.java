@@ -34,21 +34,20 @@ class MigrateAssertionsTests implements RewriteTest {
             void migrateEqualsInt() {
                 //language=java
                 rewriteRun(java("""
-                  import org.testng.Assert;
+                    import org.testng.Assert;
                          
                     class MyTest {
                         void testInt() {
                             int actual = 1;
                             int expected = 2;
-                            
+                          
                             Assert.assertEquals(actual, expected, "Test failed badly");
                         }
                     }
-                     """,
-                  """
+                    """, """
                     import org.junit.jupiter.api.Assertions;
                  
-                     class MyTest {
+                    class MyTest {
                         void testInt() {
                             int actual = 1;
                             int expected = 2;
@@ -66,8 +65,8 @@ class MigrateAssertionsTests implements RewriteTest {
             void migrateEqualsInt() {
                 //language=java
                 rewriteRun(java("""
-                  import org.testng.Assert;
-                         
+                    import org.testng.Assert;
+                    
                     class MyTest {
                         void testInt() {
                             int actual = 1;
@@ -76,11 +75,10 @@ class MigrateAssertionsTests implements RewriteTest {
                             Assert.assertEquals(actual, expected);
                         }
                     }
-                     """,
-                  """
+                    """, """
                     import org.junit.jupiter.api.Assertions;
                  
-                     class MyTest {
+                    class MyTest {
                         void testInt() {
                             int actual = 1;
                             int expected = 2;
