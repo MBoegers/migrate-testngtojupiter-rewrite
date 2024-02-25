@@ -9,6 +9,7 @@
  */
 package io.github.mboegers.openrewrite.testngtojupiter;
 
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
@@ -44,5 +45,70 @@ class MigrateAnnotationsTests implements RewriteTest {
                     void test() {}
                 }
                 """));
+    }
+
+    @Nested
+    class ReplaceEnabled {
+        @Test
+        void enabledFalse() {
+            //language=java
+            rewriteRun(java("""
+               import org.testng.annotations.Test;
+               
+               class MyTest {
+                   @Test(enabled = false)
+                   void test() {}
+               }
+                ""","""
+                import org.junit.jupiter.api.Disabled;
+                import org.junit.jupiter.api.Test;
+                
+                class MyTest {
+                    @Test
+                    @Disabled
+                    void test() {}
+                }
+                """));
+        }
+
+        @Test
+        void enabledTrue() {
+            //language=java
+            rewriteRun(java("""
+               import org.testng.annotations.Test;
+               
+               class MyTest {
+                   @Test(enabled = true)
+                   void test() {}
+               }
+                ""","""
+                import org.junit.jupiter.api.Test;
+                
+                class MyTest {
+                    @Test
+                    void test() {}
+                }
+                """));
+        }
+
+        @Test
+        void enabledDefault() {
+            //language=java
+            rewriteRun(java("""
+               import org.testng.annotations.Test;
+               
+               class MyTest {
+                   @Test
+                   void test() {}
+               }
+                ""","""
+                import org.junit.jupiter.api.Test;
+                
+                class MyTest {
+                    @Test
+                    void test() {}
+                }
+                """));
+        }
     }
 }
