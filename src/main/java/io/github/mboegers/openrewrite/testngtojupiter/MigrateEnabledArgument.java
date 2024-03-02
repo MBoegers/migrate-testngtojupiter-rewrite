@@ -22,7 +22,7 @@ public class MigrateEnabledArgument extends Recipe {
 
     @Override
     public String getDescription() {
-        return "Replace @org.testng.annotations.Test's parameter with Juniper @Disabled.";
+        return "Replace @org.testng.annotations.Test's parameter with Jupiter @Disabled.";
     }
 
     @Override

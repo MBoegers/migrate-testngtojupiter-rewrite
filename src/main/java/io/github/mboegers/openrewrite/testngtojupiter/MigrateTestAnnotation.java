@@ -30,7 +30,7 @@ public class MigrateTestAnnotation extends Recipe {
 
     @Override
     public String getDescription() {
-        return "Replace @org.testng.annotations.Test with Juniper equivalents.";
+        return "Replace @org.testng.annotations.Test with Jupiter equivalents.";
     }
 
     @Override
