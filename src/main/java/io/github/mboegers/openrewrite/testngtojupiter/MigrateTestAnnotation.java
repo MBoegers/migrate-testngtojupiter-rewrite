@@ -36,7 +36,7 @@ public class MigrateTestAnnotation extends Recipe {
 
     @Override
     public Duration getEstimatedEffortPerOccurrence() {
-        return Duration.ofMinutes(5);
+        return Duration.ofMinutes(3);
     }
 
     @Override
