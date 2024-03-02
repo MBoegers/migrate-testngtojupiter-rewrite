@@ -8,18 +8,13 @@ import org.openrewrite.TreeVisitor;
 import org.openrewrite.java.*;
 import org.openrewrite.java.tree.Expression;
 import org.openrewrite.java.tree.J;
-import org.openrewrite.java.tree.Space;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 @Value
 @EqualsAndHashCode(callSuper = false)
 public class MigrateEnabledArgument extends Recipe {
-
     @Override
     public String getDisplayName() {
         return "Replace TestNG enable Test";
@@ -61,7 +56,7 @@ public class MigrateEnabledArgument extends Recipe {
             }
 
             // add @Disables if enabled=false
-            Boolean isEnabled = (Boolean) ((J.Literal)enabledArgument.get().getAssignment().unwrap()).getValue();
+            Boolean isEnabled = (Boolean) ((J.Literal) enabledArgument.get().getAssignment().unwrap()).getValue();
             if (Boolean.FALSE.equals(isEnabled)) {
                 var addAnnotationCoordinate = method.getCoordinates().addAnnotation(Comparator.comparing(J.Annotation::getSimpleName));
                 method = JavaTemplate
@@ -81,7 +76,7 @@ public class MigrateEnabledArgument extends Recipe {
 
         private boolean isEnabledExpression(Expression expr) {
             return expr instanceof J.Assignment &&
-                   "enabled".equals(((J.Identifier) ((J.Assignment)expr).getVariable()).getSimpleName());
+                   "enabled".equals(((J.Identifier) ((J.Assignment) expr).getVariable()).getSimpleName());
         }
     }
 }

@@ -12,23 +12,17 @@ package io.github.mboegers.openrewrite.testngtojupiter;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-import org.openrewrite.Cursor;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
 import org.openrewrite.java.*;
-import org.openrewrite.java.search.FindAnnotations;
-import org.openrewrite.java.tree.Expression;
 import org.openrewrite.java.tree.J;
-import org.openrewrite.java.tree.JavaCoordinates;
 
-import java.util.*;
-import java.util.function.Predicate;
+import java.util.Comparator;
 
 @Value
 @EqualsAndHashCode(callSuper = false)
 public class MigrateTestAnnotation extends Recipe {
-
     @Override
     public String getDisplayName() {
         return "Replace @Test Annotation";
@@ -78,7 +72,7 @@ public class MigrateTestAnnotation extends Recipe {
             var cursor = getCursor();
             method = JavaTemplate
                     .builder(TEST_ANNOTATION)
-                    .javaParser(JavaParser.fromJavaVersion().classpath( "junit-jupiter-api"))
+                    .javaParser(JavaParser.fromJavaVersion().classpath("junit-jupiter-api"))
                     .imports(JUPITER_TEST)
                     .build()
                     .apply(cursor, addAnnotationCoordinate);

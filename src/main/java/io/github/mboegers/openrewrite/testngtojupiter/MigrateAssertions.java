@@ -20,7 +20,6 @@ import org.testng.Assert;
         description = "Migrate all TestNG Assertions to JUnit Jupiter Assertions."
 )
 public class MigrateAssertions {
-
     @RecipeDescriptor(
             name = "Replace `Assert#assertEquals(?, ?)`",
             description = "Replace `org.testng.Assert#assertEquals(?, ?)` with `org.junit.jupiter.api.Assertions#assertEquals(?, ?)`."

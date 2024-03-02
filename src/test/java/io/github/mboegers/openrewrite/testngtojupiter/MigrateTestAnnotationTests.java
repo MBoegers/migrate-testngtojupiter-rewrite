@@ -22,8 +22,8 @@ class MigrateTestAnnotationTests implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
         spec.parser(JavaParser.fromJavaVersion()
-          .logCompilationWarningsAndErrors(true)
-          .classpath("junit-jupiter-api", "testng"))
+            .logCompilationWarningsAndErrors(true)
+            .classpath("junit-jupiter-api", "testng"))
           .recipe(new MigrateTestAnnotation());
     }
 
@@ -31,33 +31,33 @@ class MigrateTestAnnotationTests implements RewriteTest {
     void keepNonEmptyAtTest() {
         //language=java
         rewriteRun(java("""
-               import org.testng.annotations.Test;
-               
-               class MyTest {
-                   @Test(enabled = false)
-                   void test() {}
-               }
-               """));
+          import org.testng.annotations.Test;
+                         
+          class MyTest {
+              @Test(enabled = false)
+              void test() {}
+          }
+          """));
     }
 
     @Test
     void replaceEmptyAtTest() {
         //language=java
         rewriteRun(java("""
-               import org.testng.annotations.Test;
-               
-               class MyTest {
-                   @Test()
-                   void test() {}
-               }
-               ""","""
-                import org.junit.jupiter.api.Test;
-                
-                class MyTest {
-                    @Test
-                    void test() {}
-                }
-                """));
+          import org.testng.annotations.Test;
+                         
+          class MyTest {
+              @Test()
+              void test() {}
+          }
+          """, """
+          import org.junit.jupiter.api.Test;
+                          
+          class MyTest {
+              @Test
+              void test() {}
+          }
+          """));
     }
 
     @Test
@@ -65,20 +65,20 @@ class MigrateTestAnnotationTests implements RewriteTest {
     void replaceAtTest() {
         //language=java
         rewriteRun(java("""
-               import org.testng.annotations.Test;
-               
-               class MyTest {
-                   @Test
-                   void test() {}
-               }
-               ""","""
-                import org.junit.jupiter.api.Test;
-                
-                class MyTest {
-                    @Test
-                    void test() {}
-                }
-                """));
+          import org.testng.annotations.Test;
+                         
+          class MyTest {
+              @Test
+              void test() {}
+          }
+          """, """
+          import org.junit.jupiter.api.Test;
+                          
+          class MyTest {
+              @Test
+              void test() {}
+          }
+          """));
     }
 
 }

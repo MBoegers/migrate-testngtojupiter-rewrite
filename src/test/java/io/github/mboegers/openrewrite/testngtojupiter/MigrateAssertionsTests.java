@@ -51,28 +51,28 @@ class MigrateAssertionsTests implements RewriteTest {
         void withErrorMessage(String type) {
             //language=java
             rewriteRun(java("""
-                    import org.testng.Assert;
-                         
-                    class MyTest {
-                        void testMethod() {
-                            %s actual;
-                            %s expected;
-                          
-                            Assert.assertEquals(actual, expected, "Test failed badly");
-                        }
-                    }
-                    """.formatted(type, type), """
-                    import org.junit.jupiter.api.Assertions;
-                 
-                    class MyTest {
-                        void testMethod() {
-                            %s actual;
-                            %s expected;
-                                         
-                            Assertions.assertEquals(expected, actual, "Test failed badly");
-                        }
-                    }
-                    """.formatted(type, type)));
+              import org.testng.Assert;
+                   
+              class MyTest {
+                  void testMethod() {
+                      %s actual;
+                      %s expected;
+                    
+                      Assert.assertEquals(actual, expected, "Test failed badly");
+                  }
+              }
+              """.formatted(type, type), """
+              import org.junit.jupiter.api.Assertions;
+                               
+              class MyTest {
+                  void testMethod() {
+                      %s actual;
+                      %s expected;
+                                   
+                      Assertions.assertEquals(expected, actual, "Test failed badly");
+                  }
+              }
+              """.formatted(type, type)));
         }
 
         @ParameterizedTest
@@ -96,28 +96,28 @@ class MigrateAssertionsTests implements RewriteTest {
         void withoutErrorMessage(String type) {
             //language=java
             rewriteRun(java("""
-                    import org.testng.Assert;
-                         
-                    class MyTest {
-                        void testMethod() {
-                            %s actual;
-                            %s expected;
-                          
-                            Assert.assertEquals(actual, expected);
-                        }
-                    }
-                    """.formatted(type, type), """
-                    import org.junit.jupiter.api.Assertions;
-                 
-                    class MyTest {
-                        void testMethod() {
-                            %s actual;
-                            %s expected;
-                                         
-                            Assertions.assertEquals(expected, actual);
-                        }
-                    }
-                    """.formatted(type, type)));
+              import org.testng.Assert;
+                   
+              class MyTest {
+                  void testMethod() {
+                      %s actual;
+                      %s expected;
+                    
+                      Assert.assertEquals(actual, expected);
+                  }
+              }
+              """.formatted(type, type), """
+              import org.junit.jupiter.api.Assertions;
+                               
+              class MyTest {
+                  void testMethod() {
+                      %s actual;
+                      %s expected;
+                                   
+                      Assertions.assertEquals(expected, actual);
+                  }
+              }
+              """.formatted(type, type)));
         }
     }
 
@@ -144,28 +144,28 @@ class MigrateAssertionsTests implements RewriteTest {
         void withErrorMessage(String type) {
             //language=java
             rewriteRun(java("""
-                    import org.testng.Assert;
-                         
-                    class MyTest {
-                        void testMethod() {
-                            %s actual;
-                            %s expected;
-                          
-                            Assert.assertNotEquals(actual, expected, "Test failed badly");
-                        }
-                    }
-                    """.formatted(type, type), """
-                    import org.junit.jupiter.api.Assertions;
-                 
-                    class MyTest {
-                        void testMethod() {
-                            %s actual;
-                            %s expected;
-                                         
-                            Assertions.assertNotEquals(expected, actual, "Test failed badly");
-                        }
-                    }
-                    """.formatted(type, type)));
+              import org.testng.Assert;
+                   
+              class MyTest {
+                  void testMethod() {
+                      %s actual;
+                      %s expected;
+                    
+                      Assert.assertNotEquals(actual, expected, "Test failed badly");
+                  }
+              }
+              """.formatted(type, type), """
+              import org.junit.jupiter.api.Assertions;
+                               
+              class MyTest {
+                  void testMethod() {
+                      %s actual;
+                      %s expected;
+                                   
+                      Assertions.assertNotEquals(expected, actual, "Test failed badly");
+                  }
+              }
+              """.formatted(type, type)));
         }
 
         @ParameterizedTest
@@ -189,28 +189,28 @@ class MigrateAssertionsTests implements RewriteTest {
         void withoutErrorMessage(String type) {
             //language=java
             rewriteRun(java("""
-                    import org.testng.Assert;
-                         
-                    class MyTest {
-                        void testMethod() {
-                            %s actual;
-                            %s expected;
-                          
-                            Assert.assertNotEquals(actual, expected);
-                        }
-                    }
-                    """.formatted(type, type), """
-                    import org.junit.jupiter.api.Assertions;
-                 
-                    class MyTest {
-                        void testMethod() {
-                            %s actual;
-                            %s expected;
-                                         
-                            Assertions.assertNotEquals(expected, actual);
-                        }
-                    }
-                    """.formatted(type, type)));
+              import org.testng.Assert;
+                   
+              class MyTest {
+                  void testMethod() {
+                      %s actual;
+                      %s expected;
+                    
+                      Assert.assertNotEquals(actual, expected);
+                  }
+              }
+              """.formatted(type, type), """
+              import org.junit.jupiter.api.Assertions;
+                               
+              class MyTest {
+                  void testMethod() {
+                      %s actual;
+                      %s expected;
+                                   
+                      Assertions.assertNotEquals(expected, actual);
+                  }
+              }
+              """.formatted(type, type)));
         }
     }
 
@@ -221,34 +221,34 @@ class MigrateAssertionsTests implements RewriteTest {
         void withErrorMessage(String type) {
             //language=java
             rewriteRun(java("""
-                    import org.testng.Assert;
-                         
-                    class MyTest {
-                        void testMethod() {
-                            %s actual;
-                            %s expected;
-                          
-                            Assert.assertEqualsDeep(actual, expected, "Test failed badly");
-                        }
-                    }
-                    """.formatted(type, type)));
+              import org.testng.Assert;
+                   
+              class MyTest {
+                  void testMethod() {
+                      %s actual;
+                      %s expected;
+                    
+                      Assert.assertEqualsDeep(actual, expected, "Test failed badly");
+                  }
+              }
+              """.formatted(type, type)));
         }
 
         @Test
         void withoutErrorMessage() {
             //language=java
             rewriteRun(java("""
-                    import org.testng.Assert;
-                         
-                    class MyTest {
-                        void testMethod() {
-                            java.util.Map<?,?> actual;
-                            java.util.Map<?,?> expected;
-                          
-                            Assert.assertEqualsDeep(actual, expected);
-                        }
-                    }
-                    """));
+              import org.testng.Assert;
+                   
+              class MyTest {
+                  void testMethod() {
+                      java.util.Map<?,?> actual;
+                      java.util.Map<?,?> expected;
+                    
+                      Assert.assertEqualsDeep(actual, expected);
+                  }
+              }
+              """));
         }
     }
 
@@ -259,26 +259,26 @@ class MigrateAssertionsTests implements RewriteTest {
         void withErrorMessage(String type) {
             //language=java
             rewriteRun(java("""
-                    import org.testng.Assert;
-                         
-                    class MyTest {
-                        void testMethod() {
-                            %s expr;
-                          
-                            Assert.assertFalse(expr, "Test failed badly");
-                        }
-                    }
-                    """.formatted(type),"""
-                    import org.junit.jupiter.api.Assertions;
-                         
-                    class MyTest {
-                        void testMethod() {
-                            %s expr;
-                          
-                            Assertions.assertFalse(expr, "Test failed badly");
-                        }
-                    }
-                    """.formatted(type)));
+              import org.testng.Assert;
+                   
+              class MyTest {
+                  void testMethod() {
+                      %s expr;
+                    
+                      Assert.assertFalse(expr, "Test failed badly");
+                  }
+              }
+              """.formatted(type), """
+              import org.junit.jupiter.api.Assertions;
+                   
+              class MyTest {
+                  void testMethod() {
+                      %s expr;
+                    
+                      Assertions.assertFalse(expr, "Test failed badly");
+                  }
+              }
+              """.formatted(type)));
         }
 
         @ParameterizedTest
@@ -286,26 +286,26 @@ class MigrateAssertionsTests implements RewriteTest {
         void withoutErrorMessage(String type) {
             //language=java
             rewriteRun(java("""
-                    import org.testng.Assert;
-                         
-                    class MyTest {
-                        void testMethod() {
-                            %s expr;
-                          
-                            Assert.assertFalse(expr);
-                        }
-                    }
-                    """.formatted(type),"""
-                    import org.junit.jupiter.api.Assertions;
-                         
-                    class MyTest {
-                        void testMethod() {
-                            %s expr;
-                          
-                            Assertions.assertFalse(expr);
-                        }
-                    }
-                    """.formatted(type, type)));
+              import org.testng.Assert;
+                   
+              class MyTest {
+                  void testMethod() {
+                      %s expr;
+                    
+                      Assert.assertFalse(expr);
+                  }
+              }
+              """.formatted(type), """
+              import org.junit.jupiter.api.Assertions;
+                   
+              class MyTest {
+                  void testMethod() {
+                      %s expr;
+                    
+                      Assertions.assertFalse(expr);
+                  }
+              }
+              """.formatted(type, type)));
         }
     }
 
@@ -316,26 +316,26 @@ class MigrateAssertionsTests implements RewriteTest {
         void withErrorMessage(String type) {
             //language=java
             rewriteRun(java("""
-                    import org.testng.Assert;
-                         
-                    class MyTest {
-                        void testMethod() {
-                            %s expr;
-                          
-                            Assert.assertTrue(expr, "Test failed badly");
-                        }
-                    }
-                    """.formatted(type),"""
-                    import org.junit.jupiter.api.Assertions;
-                         
-                    class MyTest {
-                        void testMethod() {
-                            %s expr;
-                          
-                            Assertions.assertTrue(expr, "Test failed badly");
-                        }
-                    }
-                    """.formatted(type)));
+              import org.testng.Assert;
+                   
+              class MyTest {
+                  void testMethod() {
+                      %s expr;
+                    
+                      Assert.assertTrue(expr, "Test failed badly");
+                  }
+              }
+              """.formatted(type), """
+              import org.junit.jupiter.api.Assertions;
+                   
+              class MyTest {
+                  void testMethod() {
+                      %s expr;
+                    
+                      Assertions.assertTrue(expr, "Test failed badly");
+                  }
+              }
+              """.formatted(type)));
         }
 
         @ParameterizedTest
@@ -343,26 +343,26 @@ class MigrateAssertionsTests implements RewriteTest {
         void withoutErrorMessage(String type) {
             //language=java
             rewriteRun(java("""
-                    import org.testng.Assert;
-                         
-                    class MyTest {
-                        void testMethod() {
-                            %s expr;
-                          
-                            Assert.assertTrue(expr);
-                        }
-                    }
-                    """.formatted(type, type),"""
-                    import org.junit.jupiter.api.Assertions;
-                         
-                    class MyTest {
-                        void testMethod() {
-                            %s expr;
-                          
-                            Assertions.assertTrue(expr);
-                        }
-                    }
-                    """.formatted(type, type)));
+              import org.testng.Assert;
+                   
+              class MyTest {
+                  void testMethod() {
+                      %s expr;
+                    
+                      Assert.assertTrue(expr);
+                  }
+              }
+              """.formatted(type, type), """
+              import org.junit.jupiter.api.Assertions;
+                   
+              class MyTest {
+                  void testMethod() {
+                      %s expr;
+                    
+                      Assertions.assertTrue(expr);
+                  }
+              }
+              """.formatted(type, type)));
         }
     }
 }

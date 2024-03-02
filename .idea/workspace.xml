@@ -4,8 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="190c8b3f-1ab2-4161-b614-91aa69da50c1" name="Changes" comment="migrate from gradle to maven">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build_ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build_ci.yml" afterDir="false" />
+    <list default="true" id="190c8b3f-1ab2-4161-b614-91aa69da50c1" name="Changes" comment="change dependency submission to maven">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/mboegers/openrewrite/testngtojupiter/MigrateAssertions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/mboegers/openrewrite/testngtojupiter/MigrateAssertions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/mboegers/openrewrite/testngtojupiter/MigrateEnabledArgument.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/mboegers/openrewrite/testngtojupiter/MigrateEnabledArgument.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/mboegers/openrewrite/testngtojupiter/MigrateTestAnnotation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/mboegers/openrewrite/testngtojupiter/MigrateTestAnnotation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/rewrite/rewrite.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/rewrite/rewrite.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/io/github/mboegers/openrewrite/testngtojupiter/MigrateAssertionsTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/github/mboegers/openrewrite/testngtojupiter/MigrateAssertionsTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/io/github/mboegers/openrewrite/testngtojupiter/MigrateEnabledTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/github/mboegers/openrewrite/testngtojupiter/MigrateEnabledTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/io/github/mboegers/openrewrite/testngtojupiter/MigrateTestAnnotationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/github/mboegers/openrewrite/testngtojupiter/MigrateTestAnnotationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,11 +40,17 @@
       </state>
     </system>
   </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -63,6 +77,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "actions.on.save",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -136,7 +151,7 @@
       <option name="presentableId" value="Default" />
       <updated>1709388135707</updated>
       <workItem from="1709388136800" duration="27000" />
-      <workItem from="1709388166506" duration="710000" />
+      <workItem from="1709388166506" duration="2672000" />
     </task>
     <task id="LOCAL-00001" summary="migrate from gradle to maven">
       <option name="closed" value="true" />
@@ -154,7 +169,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709388766396</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="change dependency submission to maven">
+      <option name="closed" value="true" />
+      <created>1709388900567</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1709388900567</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -163,6 +186,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add recipe to migrate disables annotation" />
     <MESSAGE value="migrate from gradle to maven" />
-    <option name="LAST_COMMIT_MESSAGE" value="migrate from gradle to maven" />
+    <MESSAGE value="change dependency submission to maven" />
+    <option name="LAST_COMMIT_MESSAGE" value="change dependency submission to maven" />
   </component>
 </project>
