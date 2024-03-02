@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="190c8b3f-1ab2-4161-b614-91aa69da50c1" name="Changes" comment="migrate from gradle to maven">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/gradle.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build_ci.yml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="migrate-testngtojupiter-rewrite" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2d8SItHFankFQ8htLsGMTuYsfua" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.MigrateEnabledTests.executor": "Run",
+    "JUnit.io.github.mboegers.openrewrite.testngtojupiter in rewrite-recipe-starter.executor": "Run",
+    "JUnit.testngtojupiter in rewrite-recipe-starter.executor": "Run",
+    "Maven.migrate-testngtojupiter-rewrite [clean].executor": "Run",
+    "Maven.rewrite-recipe-starter [clean,test].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RubyModuleManagerSettings">
+    <option name="blackListedRootsPaths">
+      <list>
+        <option value="$PROJECT_DIR$/src/main" />
+        <option value="$PROJECT_DIR$/src/test" />
+        <option value="$PROJECT_DIR$" />
+      </list>
+    </option>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean test" />
+      <command value="mvn clean" />
+    </option>
+  </component>
+  <component name="RunManager" selected="JUnit.MigrateEnabledTests">
+    <configuration name="MigrateEnabledTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rewrite-recipe-starter" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.github.mboegers.openrewrite.testngtojupiter.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.github.mboegers.openrewrite.testngtojupiter" />
+      <option name="MAIN_CLASS_NAME" value="io.github.mboegers.openrewrite.testngtojupiter.MigrateEnabledTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="io.github.mboegers.openrewrite.testngtojupiter in rewrite-recipe-starter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rewrite-recipe-starter" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.github.mboegers.openrewrite.testngtojupiter.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.github.mboegers.openrewrite.testngtojupiter" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="testngtojupiter in rewrite-recipe-starter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rewrite-recipe-starter" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/src/test/java/io/github/mboegers/openrewrite/testngtojupiter" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.MigrateEnabledTests" />
+        <item itemvalue="JUnit.testngtojupiter in rewrite-recipe-starter" />
+        <item itemvalue="JUnit.io.github.mboegers.openrewrite.testngtojupiter in rewrite-recipe-starter" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="190c8b3f-1ab2-4161-b614-91aa69da50c1" name="Changes" comment="add recipe to migrate disables annotation" />
+      <created>1709388135707</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1709388135707</updated>
+      <workItem from="1709388136800" duration="27000" />
+      <workItem from="1709388166506" duration="509000" />
+    </task>
+    <task id="LOCAL-00001" summary="migrate from gradle to maven">
+      <option name="closed" value="true" />
+      <created>1709388558272</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1709388558272</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add recipe to migrate disables annotation" />
+    <MESSAGE value="migrate from gradle to maven" />
+    <option name="LAST_COMMIT_MESSAGE" value="migrate from gradle to maven" />
+  </component>
+</project>
