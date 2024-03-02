@@ -17,14 +17,13 @@ import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
 import org.openrewrite.java.*;
+import org.openrewrite.java.search.FindAnnotations;
 import org.openrewrite.java.tree.Expression;
 import org.openrewrite.java.tree.J;
 import org.openrewrite.java.tree.JavaCoordinates;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Predicate;
 
 @Value
 @EqualsAndHashCode(callSuper = false)
@@ -50,112 +49,48 @@ public class MigrateTestAnnotation extends Recipe {
         private static final String TESTNG_TEST_FQN = "org.testng.annotations.Test";
         private final AnnotationMatcher TESTNG_TEST_MATCHER = new AnnotationMatcher("@" + TESTNG_TEST_FQN);
 
+        private static final String JUPITER_TEST = "org.junit.jupiter.api.Test";
+        private static final String TEST_ANNOTATION = "@Test";
+
         @Override
         public J.MethodDeclaration visitMethodDeclaration(J.MethodDeclaration method, ExecutionContext ctx) {
             method = super.visitMethodDeclaration(method, ctx);
+            var methodAnnotations = method.getLeadingAnnotations();
 
-            //return early if no TestNG used
-            Optional<J.Annotation> testNGAnnotation = method.getLeadingAnnotations().stream().filter(TESTNG_TEST_MATCHER::matches).findAny();
-            if (testNGAnnotation.isEmpty()) {
+            //return early if no TestNG used or still has arguments
+            var testNgAnnotation = methodAnnotations.stream()
+                    .filter(TESTNG_TEST_MATCHER::matches)
+                    .findAny();
+            if (testNgAnnotation.isEmpty()) {
+                return method;
+            }
+
+            boolean hasArguments = testNgAnnotation
+                    .map(J.Annotation::getArguments)
+                    .map(as -> !as.isEmpty() && as.stream().noneMatch(J.Empty.class::isInstance))
+                    .orElse(false);
+            if (hasArguments) {
                 return method;
             }
 
             // transform TestNG @Test to Jupiter
-            var javaCoordinates = method.getCoordinates().addAnnotation((o1, o2) -> -1);
-            var testAnnotation = testNGAnnotation.get();
-            var annotations = method.getLeadingAnnotations();
-            var arguments = extractArgumentsFrom(testAnnotation);
+            var addAnnotationCoordinate = method.getCoordinates().addAnnotation(Comparator.comparing(J.Annotation::getSimpleName));
+            var cursor = getCursor();
+            method = JavaTemplate
+                    .builder(TEST_ANNOTATION)
+                    .javaParser(JavaParser.fromJavaVersion().classpath( "junit-jupiter-api"))
+                    .imports(JUPITER_TEST)
+                    .build()
+                    .apply(cursor, addAnnotationCoordinate);
 
-            annotations.add(new AddTestAnnotation(javaCoordinates, getCursor()).visitAnnotation(testAnnotation, ctx));
-            annotations.add(new TransformEnabled(javaCoordinates, getCursor(), arguments).visitAnnotation(testAnnotation, ctx));
-
-            method = method.withLeadingAnnotations(annotations);
-
-            // remove org.testng.annotations.Test annotation
+            // update imports
+            maybeAddImport(JUPITER_TEST, false);
             maybeRemoveImport(TESTNG_TEST_FQN);
-            return new RemoveAnnotationVisitor(TESTNG_TEST_MATCHER).visitMethodDeclaration(method, ctx);
+
+            //remove old annotation
+            doAfterVisit(new RemoveAnnotationVisitor(TESTNG_TEST_MATCHER));
+
+            return method;
         }
-
-        class AddTestAnnotation extends JavaIsoVisitor<ExecutionContext> {
-            private static final String JUPITER_TEST = "org.junit.jupiter.api.Test";
-            private static final String TEST_ANNOTATION = "@Test";
-
-            private final JavaCoordinates javaCoordinates;
-            private final Cursor cursor;
-
-            public AddTestAnnotation(JavaCoordinates javaCoordinates, Cursor cursor) {
-                this.javaCoordinates = javaCoordinates;
-                this.cursor = cursor;
-            }
-
-            @Override
-            public J.Annotation visitAnnotation(J.Annotation annotation, ExecutionContext executionContext) {
-                J.Annotation testAnnotation = JavaTemplate
-                        .builder(TEST_ANNOTATION)
-                        .javaParser(JavaParser.fromJavaVersion().classpath( "junit-jupiter-api"))
-                        .imports(JUPITER_TEST)
-                        .build()
-                        .apply(cursor, javaCoordinates);
-                maybeAddImport(JUPITER_TEST, false);
-
-                return testAnnotation;
-            }
-        }
-
-        class TransformEnabled extends JavaIsoVisitor<ExecutionContext> {
-
-            private static final String AT_DISABLED = "@Disabled";
-            private static final String DISABLED_FQN = "org.junit.jupiter.api.Disabled";
-
-            private static final String TEST_NG_SKIP_KEY = "enabled";
-
-            private final JavaCoordinates javaCoordinates;
-            private final Map<String, Expression> arguments;
-
-            private final Cursor cursor;
-
-            public TransformEnabled(JavaCoordinates javaCoordinates, Cursor cursor, Map<String, Expression> arguments) {
-                this.javaCoordinates = javaCoordinates;
-                this.arguments = arguments;
-                this.cursor = cursor;
-            }
-
-            @Override
-            public J.Annotation visitAnnotation(J.Annotation annotation, ExecutionContext executionContext) {
-                Boolean isEnabled = (Boolean) ((J.Literal) arguments.get(TEST_NG_SKIP_KEY)).getValue();
-
-                if (isEnabled == null || !isEnabled) {
-                    return annotation;
-                }
-
-                J.Annotation testAnnotation = JavaTemplate
-                        .builder(AT_DISABLED)
-                        .javaParser(JavaParser.fromJavaVersion().classpath( "junit-jupiter-api"))
-                        .imports(DISABLED_FQN)
-                        .build()
-                        .apply(cursor, javaCoordinates);
-                maybeAddImport(DISABLED_FQN, false);
-
-                return testAnnotation;
-            }
-        }
-    }
-
-    private static Map<String, Expression> extractArgumentsFrom(J.Annotation annotation) {
-        List<Expression> arguments = annotation.getArguments();
-        if (arguments == null) {
-            return Map.of();
-        }
-
-        Map<String, Expression> values = new HashMap<>();
-        for (var expr : arguments) {
-            J.Assignment assigment = (J.Assignment) expr;
-            J.Identifier variable = (J.Identifier) assigment.getVariable();
-            Expression initializer = assigment.getAssignment();
-
-            values.put(variable.getSimpleName(), initializer);
-        }
-
-        return Map.copyOf(values);
     }
 }

@@ -9,15 +9,15 @@
  */
 package io.github.mboegers.openrewrite.testngtojupiter;
 
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.openrewrite.DocumentExample;
 import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.java.Assertions.java;
 
-class MigrateAnnotationsTests implements RewriteTest {
+class MigrateTestAnnotationTests implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
@@ -28,7 +28,41 @@ class MigrateAnnotationsTests implements RewriteTest {
     }
 
     @Test
-    void replaceEmptyTest() {
+    void keepNonEmptyAtTest() {
+        //language=java
+        rewriteRun(java("""
+               import org.testng.annotations.Test;
+               
+               class MyTest {
+                   @Test(enabled = false)
+                   void test() {}
+               }
+               """));
+    }
+
+    @Test
+    void replaceEmptyAtTest() {
+        //language=java
+        rewriteRun(java("""
+               import org.testng.annotations.Test;
+               
+               class MyTest {
+                   @Test()
+                   void test() {}
+               }
+               ""","""
+                import org.junit.jupiter.api.Test;
+                
+                class MyTest {
+                    @Test
+                    void test() {}
+                }
+                """));
+    }
+
+    @Test
+    @DocumentExample
+    void replaceAtTest() {
         //language=java
         rewriteRun(java("""
                import org.testng.annotations.Test;
@@ -37,7 +71,7 @@ class MigrateAnnotationsTests implements RewriteTest {
                    @Test
                    void test() {}
                }
-                ""","""
+               ""","""
                 import org.junit.jupiter.api.Test;
                 
                 class MyTest {
@@ -47,68 +81,4 @@ class MigrateAnnotationsTests implements RewriteTest {
                 """));
     }
 
-    @Nested
-    class ReplaceEnabled {
-        @Test
-        void enabledFalse() {
-            //language=java
-            rewriteRun(java("""
-               import org.testng.annotations.Test;
-               
-               class MyTest {
-                   @Test(enabled = false)
-                   void test() {}
-               }
-                ""","""
-                import org.junit.jupiter.api.Disabled;
-                import org.junit.jupiter.api.Test;
-                
-                class MyTest {
-                    @Test
-                    @Disabled
-                    void test() {}
-                }
-                """));
-        }
-
-        @Test
-        void enabledTrue() {
-            //language=java
-            rewriteRun(java("""
-               import org.testng.annotations.Test;
-               
-               class MyTest {
-                   @Test(enabled = true)
-                   void test() {}
-               }
-                ""","""
-                import org.junit.jupiter.api.Test;
-                
-                class MyTest {
-                    @Test
-                    void test() {}
-                }
-                """));
-        }
-
-        @Test
-        void enabledDefault() {
-            //language=java
-            rewriteRun(java("""
-               import org.testng.annotations.Test;
-               
-               class MyTest {
-                   @Test
-                   void test() {}
-               }
-                ""","""
-                import org.junit.jupiter.api.Test;
-                
-                class MyTest {
-                    @Test
-                    void test() {}
-                }
-                """));
-        }
-    }
 }

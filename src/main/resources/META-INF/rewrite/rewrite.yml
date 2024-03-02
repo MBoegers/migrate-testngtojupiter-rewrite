@@ -15,6 +15,6 @@ displayName: Migrate Test NG tests to JUnit Jupiter
 description: Migrate Test NG annotations and assertions to JUnit Jupiter. It is recommended to also execute org.openrewrite.java.testing.junit5.JUnit5BestPractices to the codebase.
 recipeList:
   - io.guthub.mboegers.openrewrite.testngtojupiter.MigrateTestAnnotation
+  - io.guthub.mboegers.openrewrite.testngtojupiter.MigrateEnabledArgument
   - io.guthub.mboegers.openrewrite.testngtojupiter.MigrateAssertions
-  - org.openrewrite.java.testing.junit5.JUnit5BestPractices
 ---
