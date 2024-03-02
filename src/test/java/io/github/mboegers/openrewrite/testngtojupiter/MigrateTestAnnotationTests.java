@@ -30,7 +30,8 @@ class MigrateTestAnnotationTests implements RewriteTest {
     @Test
     void keepNonEmptyAtTest() {
         //language=java
-        rewriteRun(java("""
+        rewriteRun(java(
+                """
           import org.testng.annotations.Test;
                          
           class MyTest {
@@ -43,7 +44,8 @@ class MigrateTestAnnotationTests implements RewriteTest {
     @Test
     void replaceEmptyAtTest() {
         //language=java
-        rewriteRun(java("""
+        rewriteRun(java(
+                """
           import org.testng.annotations.Test;
                          
           class MyTest {
@@ -64,7 +66,8 @@ class MigrateTestAnnotationTests implements RewriteTest {
     @DocumentExample
     void replaceAtTest() {
         //language=java
-        rewriteRun(java("""
+        rewriteRun(java(
+                """
           import org.testng.annotations.Test;
                          
           class MyTest {

@@ -8,7 +8,7 @@ import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.java.Assertions.java;
 
-public class MigrateEnabledTests implements RewriteTest {
+class MigrateEnabledTests implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
         spec.parser(JavaParser.fromJavaVersion()
@@ -21,7 +21,8 @@ public class MigrateEnabledTests implements RewriteTest {
     @DocumentExample
     void enabledFalse() {
         //language=java
-        rewriteRun(java("""
+        rewriteRun(java(
+                """
           import org.testng.annotations.Test;
                          
           class MyTest {
@@ -43,7 +44,8 @@ public class MigrateEnabledTests implements RewriteTest {
     @Test
     void enabledTrue() {
         //language=java
-        rewriteRun(java("""
+        rewriteRun(java(
+                """
           import org.testng.annotations.Test;
                          
           class MyTest {
@@ -63,7 +65,8 @@ public class MigrateEnabledTests implements RewriteTest {
     @Test
     void enabledDefault() {
         //language=java
-        rewriteRun(java("""
+        rewriteRun(java(
+                """
           import org.testng.annotations.Test;
                          
           class MyTest {
@@ -76,7 +79,8 @@ public class MigrateEnabledTests implements RewriteTest {
     @Test
     void enabledDefaultNoBrace() {
         //language=java
-        rewriteRun(java("""
+        rewriteRun(java(
+                """
           import org.testng.annotations.Test;
                          
           class MyTest {

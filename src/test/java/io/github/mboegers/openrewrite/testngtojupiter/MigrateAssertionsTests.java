@@ -237,7 +237,8 @@ class MigrateAssertionsTests implements RewriteTest {
         @Test
         void withoutErrorMessage() {
             //language=java
-            rewriteRun(java("""
+            rewriteRun(java(
+                    """
               import org.testng.Assert;
                    
               class MyTest {

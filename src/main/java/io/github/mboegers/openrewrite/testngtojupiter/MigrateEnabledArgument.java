@@ -9,6 +9,7 @@ import org.openrewrite.java.*;
 import org.openrewrite.java.tree.Expression;
 import org.openrewrite.java.tree.J;
 
+import java.time.Duration;
 import java.util.Comparator;
 import java.util.List;
 
@@ -26,6 +27,11 @@ public class MigrateEnabledArgument extends Recipe {
     }
 
     @Override
+    public Duration getEstimatedEffortPerOccurrence() {
+        return Duration.ofMinutes(5);
+    }
+
+    @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
         return new MigrateEnabledArgumentVisitor();
     }
@@ -34,8 +40,8 @@ public class MigrateEnabledArgument extends Recipe {
         private final AnnotationMatcher TESTNG_TEST_MATCHER = new AnnotationMatcher("@org.testng.annotations.Test");
 
         @Override
-        public J.MethodDeclaration visitMethodDeclaration(J.MethodDeclaration method, ExecutionContext executionContext) {
-            method = super.visitMethodDeclaration(method, executionContext);
+        public J.MethodDeclaration visitMethodDeclaration(J.MethodDeclaration method, ExecutionContext ctx) {
+            method = super.visitMethodDeclaration(method, ctx);
 
             // return early if not @Test annotation with argument absent present
             var testNgAnnotation = method.getLeadingAnnotations().stream()

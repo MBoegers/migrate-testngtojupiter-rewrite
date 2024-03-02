@@ -18,6 +18,7 @@ import org.openrewrite.TreeVisitor;
 import org.openrewrite.java.*;
 import org.openrewrite.java.tree.J;
 
+import java.time.Duration;
 import java.util.Comparator;
 
 @Value
@@ -31,6 +32,11 @@ public class MigrateTestAnnotation extends Recipe {
     @Override
     public String getDescription() {
         return "Replace @org.testng.annotations.Test with Jupiter equivalents.";
+    }
+
+    @Override
+    public Duration getEstimatedEffortPerOccurrence() {
+        return Duration.ofMinutes(5);
     }
 
     @Override
