@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="190c8b3f-1ab2-4161-b614-91aa69da50c1" name="Changes" comment="migrate from gradle to maven">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/gradle.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build_ci.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build_ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build_ci.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +136,7 @@
       <option name="presentableId" value="Default" />
       <updated>1709388135707</updated>
       <workItem from="1709388136800" duration="27000" />
-      <workItem from="1709388166506" duration="509000" />
+      <workItem from="1709388166506" duration="710000" />
     </task>
     <task id="LOCAL-00001" summary="migrate from gradle to maven">
       <option name="closed" value="true" />
@@ -146,7 +146,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709388558272</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="migrate from gradle to maven">
+      <option name="closed" value="true" />
+      <created>1709388766396</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1709388766396</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
