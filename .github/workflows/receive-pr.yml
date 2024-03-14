@@ -1,6 +1,7 @@
 # Description: This workflow runs OpenRewrite recipes against opened pull request and upload the patch.
 # Since this pull request receives untrusted code, we should **NOT** have any secrets in the environment.
 # https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
+# Thanks to Time te Beek for suggesting
 ---
 name: receive-pr
 
