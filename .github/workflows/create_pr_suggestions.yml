@@ -17,6 +17,8 @@ concurrency:
 jobs:
   create-suggestions:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     env:
       # https://docs.github.com/en/actions/reference/authentication-in-a-workflow#permissions-for-the-github_token
       ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
