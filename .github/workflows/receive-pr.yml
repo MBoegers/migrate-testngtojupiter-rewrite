@@ -2,7 +2,7 @@
 # Since this pull request receives untrusted code, we should **NOT** have any secrets in the environment.
 # https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
 ---
-name: create-pr-suggestions
+name: receive-pr
 
 on:
   pull_request:
@@ -15,13 +15,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  create-suggestions:
+  upload-patch:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
-    env:
-      # https://docs.github.com/en/actions/reference/authentication-in-a-workflow#permissions-for-the-github_token
-      ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
@@ -34,13 +29,30 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      # Capture the PR number
+      # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#using-data-from-the-triggering-workflow
+      - name: Create pr_number.txt
+        run: echo "${{ github.event.number }}" > pr_number.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pr_number
+          path: pr_number.txt
+      - name: Remove pr_number.txt
+        run: rm -f pr_number.txt
+
       # Execute recipes
       - name: Apply OpenRewrite recipes
-        run: mvn --activate-profiles apply-orbest-practices verify
+        run: mvn --activate-profiles openrewrite org.openrewrite.maven:rewrite-maven-plugin:run
 
-      # Post suggestions as a comment on the PR
-      - uses: googleapis/code-suggester@v4
+      # Capture the diff
+      - name: Create patch
+        run: |
+          git diff | tee git-diff.patch
+          if [ ! -s git-diff.patch ]; then
+            echo "No changes detected."
+            exit 0
+          fi
+      - uses: actions/upload-artifact@v4
         with:
-          command: review
-          pull_number: ${{ github.event.number }}
-          git_dir: '.'
+          name: patch
+          path: git-diff.patch
