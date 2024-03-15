@@ -33,10 +33,7 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
       - name: Apply patch
         run: |
-          if ! git apply git-diff.patch --allow-empty; then
-            echo "Failed to apply patch."
-            exit 1
-          fi
+          git apply git-diff.patch --allow-empty
 
       # Download the PR number
       - uses: actions/download-artifact@v4

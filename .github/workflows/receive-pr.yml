@@ -48,10 +48,6 @@ jobs:
       - name: Create patch
         run: |
           git diff | tee git-diff.patch
-          if [ ! -s git-diff.patch ]; then
-            echo "No changes detected."
-            exit 0
-          fi
       - uses: actions/upload-artifact@v4
         with:
           name: patch
