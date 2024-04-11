@@ -41,7 +41,7 @@ jobs:
 
       # Execute recipes
       - name: Apply OpenRewrite best practices
-        run: mvn rewrite-maven-plugin:run -Papply-orbest-practices
+        run: mvn verify -P apply-orbest-practices
 
       # Capture the diff
       - name: Create patch
