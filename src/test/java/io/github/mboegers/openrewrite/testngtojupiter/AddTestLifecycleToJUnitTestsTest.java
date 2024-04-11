@@ -1,6 +1,7 @@
 package io.github.mboegers.openrewrite.testngtojupiter;
 
 import org.junit.jupiter.api.Test;
+import org.openrewrite.DocumentExample;
 import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
@@ -16,6 +17,7 @@ class AddTestLifecycleToJUnitTestsTest implements RewriteTest {
           .recipe(new AddTestLifecyleToJUnitTests());
     }
 
+    @DocumentExample
     @Test
     void addToJUnitTest() {
         //language=java
@@ -73,7 +75,8 @@ class AddTestLifecycleToJUnitTestsTest implements RewriteTest {
     @Test
     void doNetReaddToJUnitTest() {
         //language=java
-        rewriteRun(java("""
+        rewriteRun(java(
+                """
           import org.junit.jupiter.api.Test;
           import org.junit.jupiter.api.TestInstance;
            
@@ -88,7 +91,8 @@ class AddTestLifecycleToJUnitTestsTest implements RewriteTest {
     @Test
     void doNetReaddToTestNGTest() {
         //language=java
-        rewriteRun(java("""
+        rewriteRun(java(
+                """
           import org.testng.annotations.Test;
                      
           class MyTest {

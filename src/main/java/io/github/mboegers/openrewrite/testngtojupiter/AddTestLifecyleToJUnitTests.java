@@ -44,8 +44,8 @@ public class AddTestLifecyleToJUnitTests extends Recipe {
         private static final AnnotationMatcher TEST_INSTANCE_MATCHER = new AnnotationMatcher("@org.junit.jupiter.api.TestInstance");
 
         @Override
-        public J.ClassDeclaration visitClassDeclaration(J.ClassDeclaration classDecl, ExecutionContext executionContext) {
-            classDecl = super.visitClassDeclaration(classDecl, executionContext);
+        public J.ClassDeclaration visitClassDeclaration(J.ClassDeclaration classDecl, ExecutionContext ctx) {
+            classDecl = super.visitClassDeclaration(classDecl, ctx);
 
             boolean hasTestInstanceAnnotation = classDecl.getLeadingAnnotations().stream().anyMatch(TEST_INSTANCE_MATCHER::matches);
 
@@ -71,8 +71,8 @@ public class AddTestLifecyleToJUnitTests extends Recipe {
         }
 
         @Override
-        public J.Annotation visitAnnotation(J.Annotation annotation, ExecutionContext executionContext) {
-            annotation = super.visitAnnotation(annotation, executionContext);
+        public J.Annotation visitAnnotation(J.Annotation annotation, ExecutionContext ctx) {
+            annotation = super.visitAnnotation(annotation, ctx);
 
             if (TEST_MATCHER.matches(annotation)) {
                 getCursor().dropParentUntil(J.ClassDeclaration.class::isInstance).putMessage("USES_JUNIT", true);
