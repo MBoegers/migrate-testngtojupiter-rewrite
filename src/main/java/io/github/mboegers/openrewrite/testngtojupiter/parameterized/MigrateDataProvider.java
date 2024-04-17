@@ -1,5 +1,16 @@
+/*
+ * Copyright 2015-2024 the original author or authors.
+ *
+ * All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v2.0 which
+ * accompanies this distribution and is available at
+ *
+ * https://www.eclipse.org/legal/epl-v20.html
+ */
+
 package io.github.mboegers.openrewrite.testngtojupiter.parameterized;
 
+import org.jetbrains.annotations.NotNull;
 import org.openrewrite.Cursor;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
@@ -9,6 +20,7 @@ import org.openrewrite.java.tree.J;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -45,38 +57,27 @@ public class MigrateDataProvider extends Recipe {
         private static final RemoveAnnotationVisitor removeAnnotationVisitor = new RemoveAnnotationVisitor(DATAPROVIDER_MATCHER);
 
         @Override
-        public J.ClassDeclaration visitClassDeclaration(J.ClassDeclaration classDecl, org.openrewrite.ExecutionContext executionContext) {
-            classDecl = super.visitClassDeclaration(classDecl, executionContext);
+        public J.ClassDeclaration visitClassDeclaration(J.ClassDeclaration classDecl, org.openrewrite.ExecutionContext ctx) {
+            classDecl = super.visitClassDeclaration(classDecl, ctx);
 
+            // find all Methods annotated with @DataProvider
             Set<J.MethodDeclaration> dataProviders = classDecl.getBody().getStatements().stream()
                     .filter(J.MethodDeclaration.class::isInstance)
                     .map(J.MethodDeclaration.class::cast)
                     .filter(m -> m.getLeadingAnnotations().stream().anyMatch(DATAPROVIDER_MATCHER::matches))
                     .collect(Collectors.toSet());
 
+            // for each add a Wrapper that translates to Jupiter method source
             for (J.MethodDeclaration provider : dataProviders) {
                 String providerMethodName = provider.getSimpleName();
-                String providerName = provider.getLeadingAnnotations().stream()
-                        .filter(DATAPROVIDER_MATCHER::matches)
-                        .map(J.Annotation::getArguments)
-                        .filter(Objects::nonNull)
-                        .flatMap(Collection::stream)
-                        .filter(J.Assignment.class::isInstance)
-                        .map(J.Assignment.class::cast)
-                        .filter(a -> "name".equals(((J.Identifier) a.getVariable()).getSimpleName()))
-                        .map(J.Assignment::getAssignment)
-                        .filter(J.Literal.class::isInstance)
-                        .map(J.Literal.class::cast)
-                        .map(J.Literal::getValue)
-                        .map(Objects::toString)
-                        .findAny()
-                        .orElse(providerMethodName);
+                String providerName = findProvidernameFromParameter(provider).orElse(providerMethodName);
 
                 classDecl = classDecl.withBody(methodeSourceTemplate.apply(
                         new Cursor(getCursor(), classDecl.getBody()), classDecl.getBody().getCoordinates().lastStatement(),
                         providerName, providerMethodName));
             }
 
+            // remove annotation and straighten imports
             doAfterVisit(new RemoveAnnotationVisitor(DATAPROVIDER_MATCHER));
             maybeRemoveImport("org.testng.annotations.DataProvider");
             maybeAddImport("org.junit.jupiter.params.provider.Arguments");
@@ -84,6 +85,23 @@ public class MigrateDataProvider extends Recipe {
             maybeAddImport("java.util.stream.Stream");
 
             return classDecl;
+        }
+
+        private static @NotNull Optional<String> findProvidernameFromParameter(J.MethodDeclaration provider) {
+            return provider.getLeadingAnnotations().stream()
+                    .filter(DATAPROVIDER_MATCHER::matches)
+                    .map(J.Annotation::getArguments)
+                    .filter(Objects::nonNull)
+                    .flatMap(Collection::stream)
+                    .filter(J.Assignment.class::isInstance)
+                    .map(J.Assignment.class::cast)
+                    .filter(a -> "name".equals(((J.Identifier) a.getVariable()).getSimpleName()))
+                    .map(J.Assignment::getAssignment)
+                    .filter(J.Literal.class::isInstance)
+                    .map(J.Literal.class::cast)
+                    .map(J.Literal::getValue)
+                    .map(Objects::toString)
+                    .findAny();
         }
     }
 }
