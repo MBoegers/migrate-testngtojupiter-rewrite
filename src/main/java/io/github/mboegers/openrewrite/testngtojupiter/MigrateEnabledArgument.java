@@ -10,6 +10,8 @@
 
 package io.github.mboegers.openrewrite.testngtojupiter;
 
+import io.github.mboegers.openrewrite.testngtojupiter.helper.AnnotationParameterValue;
+import io.github.mboegers.openrewrite.testngtojupiter.helper.FindAnnotation;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.openrewrite.ExecutionContext;
@@ -21,7 +23,7 @@ import org.openrewrite.java.tree.J;
 
 import java.time.Duration;
 import java.util.Comparator;
-import java.util.List;
+import java.util.Optional;
 
 @Value
 @EqualsAndHashCode(callSuper = false)
@@ -53,27 +55,11 @@ public class MigrateEnabledArgument extends Recipe {
         public J.MethodDeclaration visitMethodDeclaration(J.MethodDeclaration method, ExecutionContext ctx) {
             method = super.visitMethodDeclaration(method, ctx);
 
-            // return early if not @Test annotation with argument absent present
-            var testNgAnnotation = method.getLeadingAnnotations().stream()
-                    .filter(TESTNG_TEST_MATCHER::matches)
-                    .findAny();
-            if (testNgAnnotation.isEmpty()) {
-                return method;
-            }
-
-            var enabledArgument = testNgAnnotation
-                    .map(J.Annotation::getArguments).orElse(List.of())
-                    .stream()
-                    .filter(this::isEnabledExpression)
-                    .map(J.Assignment.class::cast)
-                    .findAny();
-            if (enabledArgument.isEmpty()) {
-                return method;
-            }
-
             // add @Disables if enabled=false
-            Boolean isEnabled = (Boolean) ((J.Literal) enabledArgument.get().getAssignment().unwrap()).getValue();
-            if (Boolean.FALSE.equals(isEnabled)) {
+            Optional<Boolean> isEnabled = FindAnnotation.find(method, TESTNG_TEST_MATCHER).stream().findAny()
+                    .flatMap(j -> AnnotationParameterValue.extract(j, "enabled", Boolean.class));
+
+            if (isEnabled.isPresent() && !isEnabled.get()) {
                 var addAnnotationCoordinate = method.getCoordinates().addAnnotation(Comparator.comparing(J.Annotation::getSimpleName));
                 method = JavaTemplate
                         .builder("@Disabled")

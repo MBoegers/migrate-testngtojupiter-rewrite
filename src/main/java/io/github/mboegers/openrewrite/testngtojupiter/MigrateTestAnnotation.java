@@ -10,6 +10,8 @@
 
 package io.github.mboegers.openrewrite.testngtojupiter;
 
+import io.github.mboegers.openrewrite.testngtojupiter.helper.AnnotationParameterValue;
+import io.github.mboegers.openrewrite.testngtojupiter.helper.FindAnnotation;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.openrewrite.ExecutionContext;
@@ -55,20 +57,14 @@ public class MigrateTestAnnotation extends Recipe {
         @Override
         public J.MethodDeclaration visitMethodDeclaration(J.MethodDeclaration method, ExecutionContext ctx) {
             method = super.visitMethodDeclaration(method, ctx);
-            var methodAnnotations = method.getLeadingAnnotations();
 
             //return early if no TestNG used or still has arguments
-            var testNgAnnotation = methodAnnotations.stream()
-                    .filter(TESTNG_TEST_MATCHER::matches)
-                    .findAny();
+            var testNgAnnotation = FindAnnotation.findFirst(method, TESTNG_TEST_MATCHER);
             if (testNgAnnotation.isEmpty()) {
                 return method;
             }
 
-            boolean hasArguments = testNgAnnotation
-                    .map(J.Annotation::getArguments)
-                    .map(as -> !as.isEmpty() && as.stream().noneMatch(J.Empty.class::isInstance))
-                    .orElse(false);
+            boolean hasArguments = AnnotationParameterValue.hasAny(testNgAnnotation.get());
             if (hasArguments) {
                 return method;
             }

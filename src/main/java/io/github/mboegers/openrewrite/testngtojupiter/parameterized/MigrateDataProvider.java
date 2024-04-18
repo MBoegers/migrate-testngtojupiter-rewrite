@@ -10,7 +10,9 @@
 
 package io.github.mboegers.openrewrite.testngtojupiter.parameterized;
 
+import io.github.mboegers.openrewrite.testngtojupiter.helper.AnnotationParameterValue;
 import io.github.mboegers.openrewrite.testngtojupiter.helper.FindAnnotatedMethods;
+import io.github.mboegers.openrewrite.testngtojupiter.helper.FindAnnotation;
 import io.github.mboegers.openrewrite.testngtojupiter.helper.UsesAnnotation;
 import org.jetbrains.annotations.NotNull;
 import org.openrewrite.*;
@@ -65,7 +67,9 @@ public class MigrateDataProvider extends Recipe {
             // for each add a Wrapper that translates to Jupiter method source
             for (J.MethodDeclaration provider : dataProviders) {
                 String providerMethodName = provider.getSimpleName();
-                String providerName = findProvidernameFromParameter(provider).orElse(providerMethodName);
+                String providerName = FindAnnotation.find(provider, DATAPROVIDER_MATCHER).stream().findAny()
+                        .flatMap(j -> AnnotationParameterValue.extract(j, "name", String.class))
+                        .orElse(providerMethodName);
 
                 classDecl = classDecl.withBody(methodeSourceTemplate.apply(
                         new Cursor(getCursor(), classDecl.getBody()), classDecl.getBody().getCoordinates().lastStatement(),
@@ -82,7 +86,7 @@ public class MigrateDataProvider extends Recipe {
             return classDecl;
         }
 
-        private static @NotNull Optional<String> findProvidernameFromParameter(J.MethodDeclaration provider) {
+        private static @NotNull Optional<String> findProviderNameFromParameter(J.MethodDeclaration provider) {
             return provider.getLeadingAnnotations().stream()
                     .filter(DATAPROVIDER_MATCHER::matches)
                     .map(J.Annotation::getArguments)

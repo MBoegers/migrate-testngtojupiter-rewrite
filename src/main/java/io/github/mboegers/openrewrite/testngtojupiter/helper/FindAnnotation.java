@@ -8,6 +8,7 @@ import org.openrewrite.java.tree.J;
 import org.openrewrite.marker.SearchResult;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -17,6 +18,10 @@ public class FindAnnotation extends JavaIsoVisitor<ExecutionContext> {
 
     public FindAnnotation(AnnotationMatcher annotationMatcher) {
         this.annotationMatcher = annotationMatcher;
+    }
+
+    public static Optional<J.Annotation> findFirst(J tree, AnnotationMatcher annotationMatcher) {
+        return TreeVisitor.collect(new FindAnnotation(annotationMatcher), tree, new HashSet<>(), J.Annotation.class, Function.identity()).stream().findFirst();
     }
 
     public static Set<J.Annotation> find(J tree, AnnotationMatcher annotationMatcher) {

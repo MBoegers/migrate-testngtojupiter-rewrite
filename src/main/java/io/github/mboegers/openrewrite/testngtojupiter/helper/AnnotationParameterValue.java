@@ -8,8 +8,15 @@ import java.util.Optional;
 
 public final class AnnotationParameterValue {
 
-    public static <T> Optional<T> extract(Optional<J.Annotation> annotation, String parameterName, Class<T> valueClass) {
-        return annotation.flatMap(j -> extract(j, parameterName, valueClass));
+    public static boolean hasAny(J.Annotation annotation) {
+        List<Expression> arguments = annotation.getArguments();
+
+        if (arguments == null || arguments.isEmpty()) {
+            return false;
+        }
+
+        boolean containsNoEmpty = arguments.stream().noneMatch(J.Empty.class::isInstance);
+        return containsNoEmpty;
     }
 
     public static <T> Optional<T> extract(J.Annotation annotation, String parameterName, Class<T> valueClass) {
