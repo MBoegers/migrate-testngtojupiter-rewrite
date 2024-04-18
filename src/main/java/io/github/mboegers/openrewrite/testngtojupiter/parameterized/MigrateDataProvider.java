@@ -14,14 +14,10 @@ import io.github.mboegers.openrewrite.testngtojupiter.helper.AnnotationParameter
 import io.github.mboegers.openrewrite.testngtojupiter.helper.FindAnnotatedMethods;
 import io.github.mboegers.openrewrite.testngtojupiter.helper.FindAnnotation;
 import io.github.mboegers.openrewrite.testngtojupiter.helper.UsesAnnotation;
-import org.jetbrains.annotations.NotNull;
 import org.openrewrite.*;
 import org.openrewrite.java.*;
 import org.openrewrite.java.tree.J;
 
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 public class MigrateDataProvider extends Recipe {
@@ -84,23 +80,6 @@ public class MigrateDataProvider extends Recipe {
             maybeAddImport("java.util.stream.Stream");
 
             return classDecl;
-        }
-
-        private static @NotNull Optional<String> findProviderNameFromParameter(J.MethodDeclaration provider) {
-            return provider.getLeadingAnnotations().stream()
-                    .filter(DATAPROVIDER_MATCHER::matches)
-                    .map(J.Annotation::getArguments)
-                    .filter(Objects::nonNull)
-                    .flatMap(Collection::stream)
-                    .filter(J.Assignment.class::isInstance)
-                    .map(J.Assignment.class::cast)
-                    .filter(a -> "name".equals(((J.Identifier) a.getVariable()).getSimpleName()))
-                    .map(J.Assignment::getAssignment)
-                    .filter(J.Literal.class::isInstance)
-                    .map(J.Literal.class::cast)
-                    .map(J.Literal::getValue)
-                    .map(Objects::toString)
-                    .findAny();
         }
     }
 }
