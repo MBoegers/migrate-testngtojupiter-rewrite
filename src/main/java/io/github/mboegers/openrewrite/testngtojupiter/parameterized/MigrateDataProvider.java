@@ -10,11 +10,10 @@
 
 package io.github.mboegers.openrewrite.testngtojupiter.parameterized;
 
+import io.github.mboegers.openrewrite.testngtojupiter.helper.FindAnnotatedMethods;
+import io.github.mboegers.openrewrite.testngtojupiter.helper.UsesAnnotation;
 import org.jetbrains.annotations.NotNull;
-import org.openrewrite.Cursor;
-import org.openrewrite.ExecutionContext;
-import org.openrewrite.Recipe;
-import org.openrewrite.TreeVisitor;
+import org.openrewrite.*;
 import org.openrewrite.java.*;
 import org.openrewrite.java.tree.J;
 
@@ -22,9 +21,11 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class MigrateDataProvider extends Recipe {
+
+    private static final AnnotationMatcher DATAPROVIDER_MATCHER = new AnnotationMatcher("@org.testng.annotations.DataProvider");
+
     @Override
     public String getDisplayName() {
         return "Migrate @DataProvider utilities";
@@ -37,11 +38,10 @@ public class MigrateDataProvider extends Recipe {
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
-        return new MigrateDataProviderVisitor();
+        return Preconditions.check(new UsesAnnotation<>(DATAPROVIDER_MATCHER), new MigrateDataProviderVisitor());
     }
 
     private class MigrateDataProviderVisitor extends JavaIsoVisitor<ExecutionContext> {
-        private static final AnnotationMatcher DATAPROVIDER_MATCHER = new AnnotationMatcher("@org.testng.annotations.DataProvider");
 
         private static final JavaTemplate methodeSourceTemplate = JavaTemplate.builder("""
                         public static Stream<Arguments> #{}Source() {
@@ -60,12 +60,7 @@ public class MigrateDataProvider extends Recipe {
         public J.ClassDeclaration visitClassDeclaration(J.ClassDeclaration classDecl, org.openrewrite.ExecutionContext ctx) {
             classDecl = super.visitClassDeclaration(classDecl, ctx);
 
-            // find all Methods annotated with @DataProvider
-            Set<J.MethodDeclaration> dataProviders = classDecl.getBody().getStatements().stream()
-                    .filter(J.MethodDeclaration.class::isInstance)
-                    .map(J.MethodDeclaration.class::cast)
-                    .filter(m -> m.getLeadingAnnotations().stream().anyMatch(DATAPROVIDER_MATCHER::matches))
-                    .collect(Collectors.toSet());
+            Set<J.MethodDeclaration> dataProviders = FindAnnotatedMethods.find(classDecl, DATAPROVIDER_MATCHER);
 
             // for each add a Wrapper that translates to Jupiter method source
             for (J.MethodDeclaration provider : dataProviders) {
