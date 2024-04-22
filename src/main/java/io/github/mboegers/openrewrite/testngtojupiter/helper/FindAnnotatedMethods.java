@@ -12,7 +12,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Finds a Method that is annotated with an Annotation matching the given Annotation Matcher
+ * Finds a {@linkplain J.MethodDeclaration} that is annotated with an {@linkplain J.Annotation} matching the given Annotation Matcher
+ *
+ * @see AnnotationMatcher
+ * @see org.openrewrite.java.tree.J.MethodDeclaration
  */
 public class FindAnnotatedMethods extends JavaIsoVisitor<ExecutionContext> {
 

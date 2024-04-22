@@ -10,7 +10,7 @@
 
 package io.github.mboegers.openrewrite.testngtojupiter;
 
-import io.github.mboegers.openrewrite.testngtojupiter.helper.AnnotationParameterValue;
+import io.github.mboegers.openrewrite.testngtojupiter.helper.AnnotationArguments;
 import io.github.mboegers.openrewrite.testngtojupiter.helper.FindAnnotation;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
@@ -64,7 +64,7 @@ public class MigrateTestAnnotation extends Recipe {
                 return method;
             }
 
-            boolean hasArguments = AnnotationParameterValue.hasAny(testNgAnnotation.get());
+            boolean hasArguments = AnnotationArguments.hasAny(testNgAnnotation.get());
             if (hasArguments) {
                 return method;
             }

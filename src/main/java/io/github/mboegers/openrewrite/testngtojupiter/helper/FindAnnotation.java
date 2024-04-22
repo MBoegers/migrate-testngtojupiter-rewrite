@@ -12,6 +12,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
+/**
+ * Finds {@linkplain J.Annotation}s in the source set
+ *
+ * @see AnnotationMatcher
+ * @see J.Annotation
+ */
 public class FindAnnotation extends JavaIsoVisitor<ExecutionContext> {
 
     private final AnnotationMatcher annotationMatcher;

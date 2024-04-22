@@ -6,7 +6,7 @@ import org.openrewrite.java.tree.J;
 import org.openrewrite.marker.SearchResult;
 
 /**
- * Checks whether a given annotation is used
+ * Checks whether a given {@linkplain J.Annotation} is used
  */
 public class UsesAnnotation<P> extends JavaIsoVisitor<P> {
     private final AnnotationMatcher annotationMatcher;
@@ -18,7 +18,7 @@ public class UsesAnnotation<P> extends JavaIsoVisitor<P> {
     @Override
     public J.Annotation visitAnnotation(J.Annotation annotation, P ctx) {
         annotation = super.visitAnnotation(annotation, ctx);
-        
+
         if (annotationMatcher.matches(annotation)) {
             return SearchResult.found(annotation);
         } else {

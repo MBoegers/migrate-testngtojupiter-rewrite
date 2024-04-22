@@ -10,7 +10,7 @@
 
 package io.github.mboegers.openrewrite.testngtojupiter;
 
-import io.github.mboegers.openrewrite.testngtojupiter.helper.AnnotationParameterValue;
+import io.github.mboegers.openrewrite.testngtojupiter.helper.AnnotationArguments;
 import io.github.mboegers.openrewrite.testngtojupiter.helper.FindAnnotation;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
@@ -18,7 +18,6 @@ import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
 import org.openrewrite.java.*;
-import org.openrewrite.java.tree.Expression;
 import org.openrewrite.java.tree.J;
 
 import java.time.Duration;
@@ -57,7 +56,7 @@ public class MigrateEnabledArgument extends Recipe {
 
             // add @Disables if enabled=false
             Optional<Boolean> isEnabled = FindAnnotation.find(method, TESTNG_TEST_MATCHER).stream().findAny()
-                    .flatMap(j -> AnnotationParameterValue.extract(j, "enabled", Boolean.class));
+                    .flatMap(j -> AnnotationArguments.extractLiteral(j, "enabled", Boolean.class));
 
             if (isEnabled.isPresent() && !isEnabled.get()) {
                 var addAnnotationCoordinate = method.getCoordinates().addAnnotation(Comparator.comparing(J.Annotation::getSimpleName));
@@ -74,11 +73,6 @@ public class MigrateEnabledArgument extends Recipe {
             doAfterVisit(new RemoveAnnotationAttribute("org.testng.annotations.Test", "enabled").getVisitor());
 
             return method;
-        }
-
-        private boolean isEnabledExpression(Expression expr) {
-            return expr instanceof J.Assignment &&
-                   "enabled".equals(((J.Identifier) ((J.Assignment) expr).getVariable()).getSimpleName());
         }
     }
 }
