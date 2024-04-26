@@ -184,6 +184,7 @@ public class MigrateDataProvider extends Recipe {
                     .apply(getCursor(), addAnnotationCoordinate, dataProviderClass, dataProviderMethodName.get());
 
             maybeAddImport("org.junit.jupiter.params.provider.MethodSource");
+            maybeRemoveImport(dataProviderClass);
 
             return method;
         }
