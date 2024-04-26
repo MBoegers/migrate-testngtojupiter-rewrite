@@ -44,20 +44,20 @@ public class MigrateDataProvider extends Recipe {
     public TreeVisitor<?, ExecutionContext> getVisitor() {
         return new TreeVisitor<>() {
             @Override
-            public @Nullable Tree visit(@Nullable Tree tree, ExecutionContext executionContext, Cursor parent) {
-                tree = super.visit(tree, executionContext, parent);
+            public @Nullable Tree visit(@Nullable Tree tree, ExecutionContext ctx, Cursor parent) {
+                tree = super.visit(tree, ctx, parent);
                 // wrap methods
-                tree = new WrapDataProviderMethod().visit(tree, executionContext, parent);
+                tree = new WrapDataProviderMethod().visit(tree, ctx, parent);
                 // remove @DataProvider
-                tree = new RemoveAnnotationVisitor(DATA_PROVIDER_MATCHER).visit(tree, executionContext, parent);
+                tree = new RemoveAnnotationVisitor(DATA_PROVIDER_MATCHER).visit(tree, ctx, parent);
                 // use @MethodeSource and @ParameterizedTest
-                tree = new UseParameterizedTest().visit(tree, executionContext, parent);
-                tree = new UseMethodSource().visit(tree, executionContext, parent);
+                tree = new UseParameterizedTest().visit(tree, ctx, parent);
+                tree = new UseMethodSource().visit(tree, ctx, parent);
                 // remove dataProviderName and dataProviderClass arguments
                 tree = new RemoveAnnotationAttribute("org.testng.annotations.Test", "dataProvider")
-                        .getVisitor().visit(tree, executionContext);
+                        .getVisitor().visit(tree, ctx);
                 tree = new RemoveAnnotationAttribute("org.testng.annotations.Test", "dataProviderClass")
-                        .getVisitor().visit(tree, executionContext);
+                        .getVisitor().visit(tree, ctx);
                 return tree;
             }
         };
